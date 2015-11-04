@@ -1,0 +1,27 @@
+{
+  "name": "Share",
+  "version": "0.1.0",
+  "author": "Artem Fitiskin <artem.fitiskin@yandex.ru>",
+  "keywords": [
+    "counter",
+    "share",
+    "social"
+  ],
+  "main": "./share.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ArtemFitiskin/share.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ArtemFitiskin/share/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-banner": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-uglify": "latest",
+    "load-grunt-tasks": "latest"
+  }
+}
