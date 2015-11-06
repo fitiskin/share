@@ -1,0 +1,17 @@
+{
+  "name": "share",
+  "version": "0.1.0",
+  "license": "MIT",
+  "homepage": "https://github.com/ArtemFitiskin/share",
+  "authors": [
+    {
+      "name": "Artem Fitiskin",
+      "url": "https://github.com/ArtemFitiskin"
+    }
+  ],
+  "keywords": [
+    "social",
+    "counters",
+    "share"
+  ]
+}
