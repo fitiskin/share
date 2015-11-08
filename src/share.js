@@ -40,10 +40,10 @@
     this.results = {};
     this.reached = 0;
     this.requested = 0;
+    this.timeout = false;
     this.socialIframes = {};
     this.createSocialIframes();
     this.createScopeIframe();
-    this.timeout = false;
   }
 
   Share_utils.map = {
