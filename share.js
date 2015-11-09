@@ -1,5 +1,5 @@
 /**
- * Share.js 0.1.0
+ * Share.js 0.1.1
  * https://github.com/ArtemFitiskin/share
  *
  * (c) 2015
@@ -47,10 +47,10 @@
     this.results = {};
     this.reached = 0;
     this.requested = 0;
+    this.timeout = false;
     this.socialIframes = {};
     this.createSocialIframes();
     this.createScopeIframe();
-    this.timeout = false;
   }
 
   Share_utils.map = {
