@@ -47,20 +47,21 @@
   }
 
   Share_utils.map = {
-    vk: 'http://vkontakte.ru/share.php?act=count&index=1&format=json&url=',
-    ok: 'http://ok.ru/dk?st.cmd=extLike&uid=odklcnt0&ref=',
-    fb: 'http://api.facebook.com/restserver.php?callback=getFB&method=links.getStats&format=json&urls=',
-    tw: 'http://urls.api.twitter.com/1/urls/count.json?callback=getTW&url='
+    vk: '//vkontakte.ru/share.php?act=count&index=1&format=json&url=',
+    ok: '//ok.ru/dk?st.cmd=extLike&uid=odklcnt0&ref=',
+    fb: '//api.facebook.com/restserver.php?callback=getFB&method=links.getStats&format=json&urls=',
+    tw: '//urls.api.twitter.com/1/urls/count.json?callback=getTW&url='
   };
 
   Share_utils.prototype.createSocialIframes = function () {
-    var url = escape(this.config.url);
+    var url = escape(this.config.url),
+        protocol = window.location.protocol;
 
     for (var i = 0, includeLength = this.config.include.length; i < includeLength; i++) {
       var item = this.config.include[i];
 
       if (this.config.exclude.indexOf(item) === -1 && allowedShares.indexOf(item) !== -1) {
-        this.socialIframes[item] = this.createSocialIframe(Share_utils.map[item] + url, item);
+        this.socialIframes[item] = this.createSocialIframe(protocol + Share_utils.map[item] + url, item);
         this.requested++;
       }
     }
