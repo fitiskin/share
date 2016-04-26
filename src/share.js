@@ -16,6 +16,29 @@
     return Object.prototype.hasOwnProperty.call(a, b);
   }
 
+  function nFormatter(num, digits) {
+    var si = [
+      { value: 1E18, symbol: 'E' },
+      { value: 1E15, symbol: 'P' },
+      { value: 1E12, symbol: 'T' },
+      { value: 1E9,  symbol: 'G' },
+      { value: 1E6,  symbol: 'M' },
+      { value: 1E3,  symbol: 'K' }
+    ], i;
+
+    for (i = 0; i < si.length; i++) {
+      if (num >= si[i].value) {
+        return (num / si[i].value).toFixed(digits)
+            .replace(
+                /\.0+$|(\.[0-9]*[1-9])0+$/,
+                '$1'
+            ) + si[i].symbol;
+      }
+    }
+
+    return num.toString();
+  }
+
   function extend(a, b) {
     for (var i in b) {
       if (hasOwnProp(b, i)) {
@@ -53,15 +76,31 @@
     tw: '//urls.api.twitter.com/1/urls/count.json?callback=getTW&url='
   };
 
+  Share_utils.prototype.formatCount = function (count) {
+     count = Number(count);
+
+     return (count && this.config.useFormatter) ? nFormatter(count, 1) : count;
+  };
+
   Share_utils.prototype.createSocialIframes = function () {
     var url = escape(this.config.url),
         protocol = window.location.protocol;
 
-    for (var i = 0, includeLength = this.config.include.length; i < includeLength; i++) {
+    for (
+        var i = 0, includeLength = this.config.include.length;
+        i < includeLength;
+        i++
+    ) {
       var item = this.config.include[i];
 
-      if (this.config.exclude.indexOf(item) === -1 && allowedShares.indexOf(item) !== -1) {
-        this.socialIframes[item] = this.createSocialIframe(protocol + Share_utils.map[item] + url, item);
+      if (
+          this.config.exclude.indexOf(item) === -1 &&
+          allowedShares.indexOf(item) !== -1
+      ) {
+        this.socialIframes[item] = this.createSocialIframe(
+            protocol + Share_utils.map[item] + url, item
+        );
+
         this.requested++;
       }
     }
@@ -133,29 +172,37 @@
         if (data[1] !== undefined) {
           count = data[1];
         }
-      break;
+        break;
 
       case 'tw':
-        if (typeof data[0] === 'object' && data[0].hasOwnProperty('count')) {
+        if (
+            typeof data[0] === 'object' &&
+            data[0].hasOwnProperty('count')
+        ) {
           count = data[0].count;
         }
-      break;
+        break;
 
       case 'fb':
         data = data[0];
-        if (typeof data[0] === 'object' && data[0].hasOwnProperty('share_count')) {
+
+        if (
+            typeof data[0] === 'object' &&
+            data[0].hasOwnProperty('share_count')
+        ) {
           count = data[0].share_count;
         }
-      break;
+        break;
     }
 
     if (count !== undefined) {
-      this.results[type] = Number(count);
+      this.results[type] = this.formatCount(count);
       this.reached++;
     }
 
     if (this.reached >= this.requested) {
       clearTimeout(this.timeout);
+
       this.callback(this.results);
       this.scopeIframe.parentNode.removeChild(this.scopeIframe);
     }
@@ -167,6 +214,7 @@
 
     script.src = src;
     script.async = true;
+
     script.onerror = function (error) {
       self.results[type] = false;
       self.reached++;
@@ -186,6 +234,7 @@
       include: allowedShares,
       exclude: [],
       url: window.location.href,
+      useFormatter: false,
       delay: 5000
     };
 
@@ -203,7 +252,10 @@
       }
     }
 
-    var _utils = new Share_utils(share_config, share_callback);
+    var _utils = new Share_utils(
+        share_config,
+        share_callback
+    );
   }
 
   return Share;

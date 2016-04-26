@@ -1,6 +1,6 @@
 {
-  "name": "Share",
-  "version": "0.1.2",
+  "name": "simple-share-count",
+  "version": "0.2.0",
   "author": "Artem Fitiskin <artem.fitiskin@yandex.ru>",
   "keywords": [
     "counter",
